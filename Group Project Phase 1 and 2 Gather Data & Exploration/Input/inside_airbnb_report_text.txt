@@ -1,0 +1,52 @@
+Inside Airbnb Accommodation Data Exploration
+
+The Inside Airbnb accommodation dataset was used to measure short-term lodging supply,
+nightly accommodation cost, listing availability, review activity, and room-type composition
+across global travel destinations. The notebook collected public Inside Airbnb summary
+listings.csv files from the Inside Airbnb data page and combined the files into one dataset.
+
+The source collection identified 119 global Inside Airbnb areas.
+The download step completed with 0 failed downloads. The raw
+combined dataset contained 1,563,867 listing-level records and 30
+fields. During cleaning, the price field was converted from text to numeric format, missing
+or invalid prices were removed, and the top 1 percent of price values within each destination
+group were removed as extreme outliers. The cleaned listing-level dataset contained
+1,054,004 records and 27 fields. A destination-level
+summary was then created with 103 destination records.
+
+Because the data covers multiple countries, raw listing prices may be stored in local currencies.
+To support fairer cross-destination comparison, destination-level price fields were converted
+to USD. Most rates were obtained through the exchange-rate API. For Belize and Taipei, manual
+source-currency-to-USD rates were added using user-provided market values as of June 16,
+2026: 1 USD = 2.0142 BZD and 1 USD = 31.5695 TWD. This means the notebook used
+1 BZD = 0.496475 USD and 1 TWD = 0.031676 USD.
+
+For central tendency, the analysis emphasized median nightly Airbnb price rather than only
+mean price because listing prices are right-skewed and luxury listings can pull the mean
+upward. The estimated seven-day lodging cost was calculated by multiplying the destination
+median nightly price by seven. This created a travel-focused lodging-cost feature that can be
+used later in the Budget Value Index.
+
+For dispersion, the analysis calculated minimum, maximum, range, quartiles, IQR, variance,
+and standard deviation for listing-level and destination-level numeric fields. The spread of
+prices confirmed that accommodation costs vary widely across destinations and room types.
+The skewness analysis also showed that raw listing prices have a long right tail. For this
+reason, the notebook generated both raw price histograms and log-transformed price
+histograms.
+
+The room_type field was used to check class imbalance. Entire home/apt listings were the
+dominant category, followed by private rooms, while shared rooms and hotel rooms represented
+much smaller shares of the data. This imbalance should be considered if room_type is used
+later in modeling.
+
+Pearson correlation analysis was calculated across destination-level numeric features. The
+strongest expected relationship is between median Airbnb price and estimated seven-day
+lodging cost because the seven-day cost is calculated directly from the median nightly price.
+The correlation matrix also helps identify relationships among listing supply, review activity,
+availability, and lodging cost before feature selection and modeling.
+
+For merging, the recommended key is location_path because destination names alone may not
+be unique across countries or regions. The main lodging-cost feature for the final merged
+dataset should be estimated_7_day_lodging_cost_usd. The quality-checked merge-ready file
+also includes ready_for_cost_merge as a flag showing whether a destination has a USD lodging
+cost and enough listings for cost-based comparison.

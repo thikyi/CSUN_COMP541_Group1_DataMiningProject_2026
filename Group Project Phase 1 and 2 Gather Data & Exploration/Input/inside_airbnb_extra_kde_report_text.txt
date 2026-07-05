@@ -1,0 +1,25 @@
+Additional Inside Airbnb KDE and EDA Findings
+
+KDE density plots were added to provide a smoother view of the accommodation price
+distributions. Because listing prices are strongly right-skewed, the main KDE plot uses
+log-transformed listing prices. This makes the central mass of the distribution easier to
+interpret while reducing the visual effect of luxury listings and extreme high-price values.
+
+A separate KDE plot by room type compares Entire home/apt, Private room, Shared room, and
+Hotel room listings. This helps show that room type affects the distribution of prices and
+supports the earlier class-imbalance finding that Entire home/apt dominates the dataset.
+
+Destination-level KDE plots were also added for median nightly price in USD and estimated
+7-day lodging cost in USD. These are more useful for the travel recommendation task than
+raw listing-level prices because the final project compares destinations rather than individual
+listings.
+
+Additional quality-control plots were added to show row retention after cleaning and area
+coverage across processing stages. These figures help explain how many records and areas
+remain after removing unusable prices and outliers. They also help justify why some areas
+need additional review before final merging.
+
+An exploratory accommodation value score was created for EDA only. This score combines
+lower 7-day lodging cost, availability, review activity, and listing supply. It is not the final
+Budget Value Index, but it helps identify destinations that may be strong accommodation
+value candidates before the full multi-source merge.
